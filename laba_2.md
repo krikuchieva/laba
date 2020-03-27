@@ -43,7 +43,7 @@ Google Public DNS - интернет-сервис корпорации Google, �
 |  5|     1 ms|     1 ms|    1 ms|  ae3-nostromo-mtt-msk.naukanet.ru [77.94.160.52]|Москва|Наука-Связь|
 |  6|     1 ms|     1 ms|    3 ms|  209.85.148.20|USA|Google LLC|
 |  7|     2 ms|     2 ms|    2 ms|  108.170.250.66|Mountain View, USA|Google LLC|
-#####|  8|    20 ms|    20 ms|    19 ms|  209.85.255.136|USA|Google LLC|
+|  8|    20 ms|    20 ms|    19 ms|  209.85.255.136|USA|Google LLC|__
 |  9|    17 ms|    17 ms|    16 ms|  216.239.54.50|USA|Google LLC|
 | 10|     *   |     *   |     *   |  Превышен интервал ожидания для запроса.|
 | 11|     *   |     *   |     *   |  Превышен интервал ожидания для запроса.|
@@ -54,9 +54,9 @@ Google Public DNS - интернет-сервис корпорации Google, �
 | 16|     *   |     *   |     *   |  Превышен интервал ожидания для запроса.|
 | 17|     *   |     *   |     *   |  Превышен интервал ожидания для запроса.|
 | 18|     *   |     *   |     *   |  Превышен интервал ожидания для запроса.|
-#####| 19|    19 ms|    18 ms|    19 ms|  dns.google [8.8.8.8]|Нью-Йорк, USA|Google LLC|
+| 19|    19 ms|    18 ms|    19 ms|  dns.google [8.8.8.8]|Нью-Йорк, USA|Google LLC|
 
-RTT = 6
+RTT = 6 ms
 Трассировка завершена.
 
 
@@ -69,10 +69,10 @@ Cloudflare — американская компания, предоставля
 |  3|     1 ms|     1 ms|     1 ms|  gw-core.gptel.ru [77.73.25.1]|Москва|Гран При Телеком|
 |  4|     1 ms|     1 ms|     1 ms|  gptel145.cln.net [79.98.8.145]|Москва|CLN|
 |  5|     1 ms|     1 ms|     1 ms|  jun0-mr-vl7.cln.net [79.98.8.254]|Москва|CLN|
-#####|  6|    20 ms|    20 ms|    20 ms|  netnod-ix-ge-a-sth-1500.cloudflare.com [194.68.123.246]|Borgholm, Sweden|Stockholm Interconnect GigEth|
-#####|  7|    19 ms|    19 ms|    19 ms|  one.one.one.one [1.1.1.1]|	Research, Australia| Cloudflare DNS|
+|  6|    20 ms|    20 ms|    20 ms|  netnod-ix-ge-a-sth-1500.cloudflare.com [194.68.123.246]|Borgholm, Sweden|Stockholm Interconnect GigEth|
+|  7|    19 ms|    19 ms|    19 ms|  one.one.one.one [1.1.1.1]|	Research, Australia| Cloudflare DNS|
 
-RTT = 6,4
+RTT = 6,4 ms
 Трассировка завершена.
 
 
@@ -84,13 +84,13 @@ OpenDNS — интернет-служба, предоставляющая общ
 | 2| 4 ms| 4 ms| 4 ms| 172.18.0.1|Москва|Гран При Телеком|
 | 3| 1 ms| 4 ms| 3 ms| gw-core.gptel.ru [77.73.25.1]|Москва|Гран При Телеком|
 | 4| 23 ms| 10 ms| 3 ms| gptel145.cln.net [79.98.8.145]|Москва|CLN|
-#####| 5| 57 ms| 54 ms| 48 ms| jun0-mr-vl7.cln.net [79.98.8.254]|Москва|CLN|
-#####| 6| 116 ms| 5 ms| 62 ms| ae11-747.RT.MR.MSK.RU.retn.net [87.245.253.18]|Москва|ReTN external interconnections in Moscow|
+| 5| 57 ms| 54 ms| 48 ms| jun0-mr-vl7.cln.net [79.98.8.254]|Москва|CLN|
+| 6| 116 ms| 5 ms| 62 ms| ae11-747.RT.MR.MSK.RU.retn.net [87.245.253.18]|Москва|ReTN external interconnections in Moscow|
 | 7| 42 ms| 42 ms| 53 ms| ae3-8.RT.TC2.AMS.NL.retn.net [87.245.233.17]|Москва|Grand Prix Telecom|
 | 8| 46 ms| 45 ms| 47 ms| peer1.rtr1.ams.opendns.com [80.249.208.88]| Amsterdam|AMS-IX Amsterdam IPv4 Peering (ISP) LAN|
-#####| 9| 47 ms| 56 ms| 46 ms| resolver2.opendns.com [208.67.220.220]|San Francisco|Cisco OpenDNS, LLC|
+| 9| 47 ms| 56 ms| 46 ms| resolver2.opendns.com [208.67.220.220]|San Francisco|Cisco OpenDNS, LLC|
 
-RTT = 37,8
+RTT = 37,8 ms
 Трассировка завершена.
 
 
@@ -100,5 +100,8 @@ RTT = 37,8
 |-|-|-|-|-|-|-|
 | 1| 1 ms| 1 ms| <1 мс| 192.168.0.1|Москва|Домашний роутер|
 | 2| 1 ms| 14 ms| 2 ms| 172.18.0.1|Москва|Гран При Телеком|
-#####| 3| 8 ms| 1 ms| 1 ms| gw-aggr1.gptel.ru [77.73.25.6]|Москва|Гран При Телеком|
-#####| 4| 8 ms| 7 ms| 5 ms| ns.gptel.ru [77.73.24.2]|Москва|network for GRANDPRIX Telecom|
+| 3| 8 ms| 1 ms| 1 ms| gw-aggr1.gptel.ru [77.73.25.6]|Москва|Гран При Телеком|
+| 4| 8 ms| 7 ms| 5 ms| ns.gptel.ru [77.73.24.2]|Москва|network for GRANDPRIX Telecom|
+
+RTT = 5 ms
+Трассировка завершена.
