@@ -1,0 +1,132 @@
+# **Лабораторная работа №3. Сбор информации о параметрах сетевой инфраструктуры компаний**
+
+## **1. Цель**
+
+1. Выбрать 15 компаний для исследования
+2. Написать код для автоматизированного сбора информации о доменах
+3. Собрать информацию c помощью этого программного кода
+4. Составить таблицу
+
+## ️**2. Исходные данные** 
+
+1. Ноутбук HP Pavilion15 c основной ОС Windows 10
+2. VM Ubuntu 16 LTE
+3. Domain - address 15 компаний
+
+## **3. Используемое ПО**
+1. JupyterLab
+2. whois
+3. nslookup
+4. nmap
+
+## ️**4. Варианты решения задач**
+1. Собрать информацию вручную с помощью веб-браузера, инструментов whois, dig, nmap и т.д.
+2. Использоавть интегрированные инструменты такие как SpiderFoot, Maltego CE, Datasploit, Recon-ng
+3. Самостоятельно разработать (для образовательных целей) автоматизированное решение для сбора информации.
+
+
+## ️**4.1. Общий ход выполнения работы** 
+1. Написание функции/скрипта для сбора требуемой информации
+2. Сбор информации по компаниям
+
+
+## ️**4.2. Разработка средства сбора информации** 
+
+```{r setup, include = FALSE}
+library(reticulate)
+
+use_python("/usr/bin/python3.5")
+py_config()
+```
+
+```{python3}
+import subprocess
+import re
+import sys
+#from pettytable import PettyTable
+import pandas as pd
+class Site_obj():
+    def __init__(self, domain_name):
+        self.domain = domain_name
+        self.ip_address = self.ip_address_def(domain_name)
+        self.ip_netblock = self.ip_netblock_def(self.ip_address)
+        self.address = self.address_def(self.ip_address[0])
+        self.hosting_phone = self.hosting_phone_def(self.ip_address[0])
+        self.ports = self.ports_def(self.ip_address[0])
+    
+    def ip_address_def(self, domain_name):
+        while True:
+            res = subprocess.Popen(["nslookup" , domain_name],  stdout=subprocess.PIPE)
+            output, self.errors = res.communicate()
+            result = re.findall(r'Address: (\d{,3}\.\d{,3}\.\d{,3}\.\d{,3})', output.decode("utf-8"))
+            if result != []:
+                break
+        return result
+
+    def ip_netblock_def(self, ip_address):
+        result = []
+        for i in range(len(ip_address)):
+            res = subprocess.Popen(["whois" , ip_address[i]],  stdout=subprocess.PIPE)
+            output, self.errors = res.communicate()
+            res.wait()
+            output = output.decode("utf-8")
+            output = re.sub('route', 'CIDR', output )
+            result.extend(re.findall(r'CIDR:\s*(.*)', output))
+        return result   
+        
+    def address_def(self, ip_address):
+        result = []
+        res = subprocess.Popen(["whois" , ip_address],  stdout=subprocess.PIPE)
+        output, self.errors = res.communicate()
+        res.wait()
+        country = re.findall(r'([C,c]ountry:\s*.*)', output.decode("utf-8"))
+        result.append(country[0])
+        city = re.findall(r'City:\s*(.*)', output.decode("utf-8"))
+        address = re.findall(r'Address:\s*(.*)', output.decode("utf-8"))
+        result.append(city)
+        result.append(address)
+        return result
+            
+    def hosting_phone_def(self, ip_address):
+        result = []      
+        res = subprocess.Popen(["whois" , ip_address],  stdout=subprocess.PIPE)
+        output, self.errors = res.communicate()
+        res.wait()
+        result.append(re.findall(r'Organization:\s*(.*)',output.decode("utf-8")))
+        result.append(re.findall(r'OrgTechPhone:\s*(.*)',output.decode("utf-8")))
+        return result
+        
+    def ports_def(self, ip_address):
+        res = subprocess.Popen(['nmap','-F', ip_address] , shell=False, stdout=subprocess.PIPE )
+        res.wait()
+        grep = subprocess.Popen(['grep', 'open'], stdin=res.stdout,  stdout=subprocess.PIPE)
+        grep.wait()
+        output, errors = grep.communicate()
+        result = re.findall(r'^\d{,5}', output.decode("utf-8"))
+        return result     
+    
+```
+
+
+## **4.3  Сбор информации по компаниям**
+Запустим наш программный код и выведем результат
+```{python3}
+site = ['Eu.wikipedia.org','Mozilla.org' ,'Eu.wikipedia.org' , 'Github.com']#,  'Sourceforge.net', 'Apache.org','Notepad-plus-plus.org','Slashdot.org','Mozilla.org']
+     'Addons.mozilla.org', 'Nginx.org', 'Launchpad.net',    'Codeplex.com', 'About.gitlab.com', 'Musescore.org' , 'Curl.haxx.se' ,'Portableapps.com']
+
+list_site_obj = [Site_obj(site[i]) for i in range(len(site)) ]
+x = PrettyTable()
+x.field_names = ["Domain name", " Ip_address" , "Ip_netblock", "Country", "Address", "Phone", "Ports" ]
+for i in range(1):
+    x.add_row([list_site_obj[i].domain, '\n'.join(list_site_obj[i].ip_address)+ '\n Hosting \n\n' + '\n'.join(str(list_site_obj[i].hosting_phone[0])[2:-2].split(' ')), 
+               '\n'.join((list_site_obj[i].ip_netblock[0]).split(', ')), list_site_obj[i].address[0], '\n'.join(str(list(list_site_obj[i].address[2]))[2:-2].replace('\'','').split(' ')),
+               '\n'.join(set(list_site_obj[i].hosting_phone[1])) ,'\n'.join(set(list_site_obj[i].ports))])
+    x.add_row(['\n', '\n', '\n', '\n', '\n', '\n', '\n'])
+print(x)
+```
+
+## **5. ️Оценка результата**
+    В результате выполнения задачи, нами было получено достаточно универсальное решение по сбору информации о доменах.
+    
+## **6 Выводы**,
+    При выборе варианта решения поставленной задачи, следует предварительно оценить объем повторяющихся действий и рассмотреть способы автоматизации.
